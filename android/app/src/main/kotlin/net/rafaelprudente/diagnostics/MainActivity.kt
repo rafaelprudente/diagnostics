@@ -7,8 +7,7 @@ import io.flutter.plugins.localauth.LocalAuthPlugin
 
 
 class MainActivity : FlutterFragmentActivity() {
-    override
-    protected fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FlutterAndroidLifecyclePlugin.registerWith(
             registrarFor(
