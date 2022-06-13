@@ -70,7 +70,7 @@ class _DiagnosticsAppState extends State<DiagnosticsApp>
 Widget firstPage() {
   Settings settings = Settings();
 
-  if (settings.getBool(constants.requireAuthenticationKey)) {
+  if (settings.getBool(constants.requireAuthenticationKey) && false) {
     return const AuthenticationPage(title: 'Diagnostics');
   } else {
     return const DiagnosticsListPage(title: 'Diagnostics');

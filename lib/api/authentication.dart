@@ -5,9 +5,11 @@ class Authentication {
   static final auth = LocalAuthentication();
 
   static Future<bool> authenticate() async {
-    final isAvaliable = await hasBiometrics();
+    final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
+    final bool canAuthenticate =
+        canAuthenticateWithBiometrics || await auth.isDeviceSupported();
 
-    if(!isAvaliable) return false;
+    if (!canAuthenticate) return false;
 
     try {
       return await auth.authenticate(
@@ -16,14 +18,6 @@ class Authentication {
             useErrorDialogs: false,
             stickyAuth: true,
           ));
-    } on PlatformException catch (e) {
-      return false;
-    }
-  }
-
-  static Future<bool> hasBiometrics() async{
-    try {
-      return await auth.canCheckBiometrics;
     } on PlatformException catch (e) {
       return false;
     }

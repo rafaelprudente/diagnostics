@@ -8,7 +8,8 @@
             "name": "diagnostics",
             "cwd": "diagnostics",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "program": "lib/main.dart"
         },
         {
             "name": "diagnostics (profile mode)",
