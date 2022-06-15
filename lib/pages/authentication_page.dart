@@ -1,18 +1,36 @@
 import 'package:flutter/material.dart';
-import '../general/constants.dart' as constants;
+import 'package:flutter_svg/svg.dart';
 
-class AuthenticationPage extends StatelessWidget {
-  const AuthenticationPage({Key? key, required String title}) : super(key: key);
+class AuthenticationPage extends StatefulWidget {
+  const AuthenticationPage({Key? key, required this.title}) : super(key: key);
 
+  final String title;
+
+  @override
+  State<AuthenticationPage> createState() => _AuthenticationPageState();
+}
+
+class _AuthenticationPageState extends State<AuthenticationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(constants.applicationName),
+        title: Text(widget.title),
       ),
-      body: const Center(
-        child: Text('Teste teste'),
-      ),
-    );;
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            GestureDetector(
+              onTap: () {
+                Navigator.pushReplacementNamed(context, '/home');
+              }, // Image tapped
+              child: SvgPicture.asset('assets/images/fingerprint.svg',
+                  semanticsLabel: 'Authentication'),
+            )
+          ],
+        ),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
   }
 }

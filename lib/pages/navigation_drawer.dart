@@ -44,8 +44,7 @@ void selectedItem(BuildContext context, int itemIndex) {
 
   switch (itemIndex) {
     case 0:
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => const SettingsPage()));
+      Navigator.pushNamed(context, '/settings') ;
       break;
   }
 }

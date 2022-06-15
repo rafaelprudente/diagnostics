@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'navigation_drawer.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  const SettingsPage({Key? key, required String title}) : super(key: key);
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();

@@ -1,78 +1,83 @@
 import 'package:diagnostics/pages/authentication_page.dart';
+import 'package:diagnostics/pages/diagnostics_list_page.dart';
+import 'package:diagnostics/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'general/constants.dart' as constants;
-import 'pages/diagnostics_list_page.dart';
-import 'api/settings.dart';
+import '../general/constants.dart' as constants;
 
-void main() async {
-  await GetStorage.init(constants.settingsStorageName);
-  runApp(const DiagnosticsApp());
+Future<void> main() async {
+  await GetStorage.init();
+  runApp(const MyApp());
 }
 
-var theme = darkTheme;
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
-var darkTheme = ThemeData(
-  primaryColor: Colors.red,
-  brightness: Brightness.dark,
-);
-
-var lightTheme = ThemeData(
-  primaryColor: Colors.red,
-  brightness: Brightness.light,
-);
-
-class DiagnosticsApp extends StatefulWidget {
-  const DiagnosticsApp({Key? key}) : super(key: key);
-
-  @override
-  State<DiagnosticsApp> createState() => _DiagnosticsAppState();
-}
-
-class _DiagnosticsAppState extends State<DiagnosticsApp>
-    with WidgetsBindingObserver {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    changeTheme();
-  }
-
-  @override
-  void didChangePlatformBrightness() {
-    changeTheme();
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  void changeTheme() {
-    var brightness = WidgetsBinding.instance.window.platformBrightness;
-    brightness == Brightness.dark ? theme = darkTheme : theme = lightTheme;
-
-    setState(() {});
-  }
-
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       title: constants.applicationName,
-      theme: theme,
-      home: firstPage(),
+      routes: {
+        '/settings': (context) => const SettingsPage(
+              title: '${constants.applicationName} Settings',
+            ),
+        '/home': (context) => const DiagnosticsListPage(
+              title: '${constants.applicationName} Home',
+            ),
+      },
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+      ),
+      home: const AuthenticationPage(
+          title: '${constants.applicationName} Authentication'),
     );
   }
 }
 
-Widget firstPage() {
-  Settings settings = Settings();
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
 
-  if (settings.getBool(constants.requireAuthenticationKey) && false) {
-    return const AuthenticationPage(title: 'Diagnostics');
-  } else {
-    return const DiagnosticsListPage(title: 'Diagnostics');
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  int _counter = 0;
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'You have pushed the button this many times:',
+            ),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
   }
 }
