@@ -1,4 +1,5 @@
 import 'package:diagnostics/pages/authentication_page.dart';
+import 'package:diagnostics/pages/diagnostics_add_page.dart';
 import 'package:diagnostics/pages/diagnostics_list_page.dart';
 import 'package:diagnostics/pages/settings_page.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,9 @@ class MyApp extends StatelessWidget {
             ),
         '/home': (context) => const DiagnosticsListPage(
               title: '${constants.applicationName} Home',
+            ),
+        '/diagnostics_add': (context) => const DiagnosticsAddPage(
+              title: '${constants.applicationName} Add',
             ),
       },
       theme: ThemeData(

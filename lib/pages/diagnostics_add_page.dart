@@ -2,27 +2,26 @@ import 'package:diagnostics/pages/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 import '../general/constants.dart' as constants;
 
-class DiagnosticsListPage extends StatefulWidget {
-  const DiagnosticsListPage({Key? key, required String title})
-      : super(key: key);
+class DiagnosticsAddPage extends StatefulWidget {
+  const DiagnosticsAddPage({Key? key, required String title}) : super(key: key);
 
   @override
-  State<DiagnosticsListPage> createState() => _DiagnosticsListPageState();
+  State<DiagnosticsAddPage> createState() => _DiagnosticsAddPageState();
 }
 
-class _DiagnosticsListPageState extends State<DiagnosticsListPage> {
+class _DiagnosticsAddPageState extends State<DiagnosticsAddPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const NavigationDrawer(),
       appBar: AppBar(
-        title: const Text('${constants.applicationName} - List'),
+        title: const Text(constants.applicationName),
       ),
       body: const Center(
-        child: Text('Teste teste'),
+        child: Text('${constants.applicationName} - Add'),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => {Navigator.pushNamed(context, '/diagnostics_add')},
+        onPressed: () => {},
         tooltip: 'Add',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.

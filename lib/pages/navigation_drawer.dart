@@ -1,4 +1,3 @@
-import 'package:diagnostics/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 import '../general/constants.dart' as constants;
 
@@ -44,7 +43,7 @@ void selectedItem(BuildContext context, int itemIndex) {
 
   switch (itemIndex) {
     case 0:
-      Navigator.pushNamed(context, '/settings') ;
+      Navigator.pushNamed(context, '/settings');
       break;
   }
 }
