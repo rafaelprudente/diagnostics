@@ -2,12 +2,18 @@ import 'package:diagnostics/pages/authentication_page.dart';
 import 'package:diagnostics/pages/diagnostics_add_page.dart';
 import 'package:diagnostics/pages/diagnostics_list_page.dart';
 import 'package:diagnostics/pages/settings_page.dart';
+import 'package:diagnostics/services/theme_service.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import '../general/constants.dart' as constants;
+import '../constants/general.dart' as constants;
+import 'services/settings_service.dart';
 
 Future<void> main() async {
   await GetStorage.init();
+  await Get.putAsync(() => SettingsService().init());
+  await Get.putAsync(() => ThemeService().init());
+
   runApp(const MyApp());
 }
 
@@ -17,7 +23,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: constants.applicationName,
       routes: {
         '/settings': (context) => const SettingsPage(
@@ -27,18 +33,17 @@ class MyApp extends StatelessWidget {
               title: '${constants.applicationName} Home',
             ),
         '/diagnostics_add': (context) => const DiagnosticsAddPage(
-              title: '${constants.applicationName} Add',
+              title: '${constants.applicationName} New',
             ),
       },
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
+      theme: ThemeService().currentTheme,
       home: const AuthenticationPage(
           title: '${constants.applicationName} Authentication'),
     );
   }
 }
 
+/*
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
@@ -85,3 +90,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+*/

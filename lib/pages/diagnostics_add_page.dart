@@ -1,6 +1,6 @@
 import 'package:diagnostics/pages/navigation_drawer.dart';
 import 'package:flutter/material.dart';
-import '../general/constants.dart' as constants;
+import '../constants/general.dart' as constants;
 
 class DiagnosticsAddPage extends StatefulWidget {
   const DiagnosticsAddPage({Key? key, required String title}) : super(key: key);

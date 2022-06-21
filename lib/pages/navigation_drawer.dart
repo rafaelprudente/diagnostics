@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../general/constants.dart' as constants;
+import '../constants/general.dart' as constants;
 
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({Key? key}) : super(key: key);
