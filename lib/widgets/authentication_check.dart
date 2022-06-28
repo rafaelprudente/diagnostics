@@ -30,7 +30,7 @@ class _AuthenticationCheckState extends State<AuthenticationCheck> {
     isLocalAuthFailed.value = false;
 
     if (!preferencesService.getBoolean(preferences_constants.keyEnableSecurity)) {
-      Get.offNamed(routes.initial);
+      Get.offNamed(routes.medicalExamListPage);
     } else {
       if (isLocalAuthAvailable) {
         final authenticated = await authentication.authenticate();
@@ -39,7 +39,7 @@ class _AuthenticationCheckState extends State<AuthenticationCheck> {
           isLocalAuthFailed.value = true;
         } else {
           if (!mounted) return;
-          Get.offNamed(routes.initial);
+          Get.offNamed(routes.medicalExamListPage);
         }
       }
     }

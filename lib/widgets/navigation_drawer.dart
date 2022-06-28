@@ -26,7 +26,7 @@ class NavigationDrawer extends StatelessWidget {
             title: const Text(label_constants.labelMenuHome),
             onTap: () {
               Get.back();
-              Get.toNamed(routes.initial);
+              Get.toNamed(routes.medicalExamListPage);
             },
           ),
           ListTile(
@@ -34,7 +34,7 @@ class NavigationDrawer extends StatelessWidget {
             title: const Text(label_constants.labelMenuPreferences),
             onTap: () {
               Get.back();
-              Get.toNamed(routes.preferences);
+              Get.toNamed(routes.preferencesListPage);
             },
           ),
         ],
@@ -60,7 +60,7 @@ void selectedItem(BuildContext context, int itemIndex) {
 
   switch (itemIndex) {
     case 0:
-      Get.toNamed(routes.preferences);
+      Get.toNamed(routes.preferencesListPage);
       break;
   }
 }

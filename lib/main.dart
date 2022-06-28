@@ -1,7 +1,9 @@
 import 'package:diagnostics/constants/appearance_constants.dart' as appearance_constants;
 import 'package:diagnostics/constants/label_constants.dart' as label_constants;
+import 'package:diagnostics/providers/doctors_provider.dart';
 import 'package:diagnostics/routes/routes.dart';
 import 'package:diagnostics/routes/routes.dart' as routes;
+import 'package:diagnostics/services/doctors_service.dart';
 import 'package:diagnostics/services/local_authentication_service.dart';
 import 'package:diagnostics/services/preferences_service.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,7 @@ import 'package:timeago/timeago.dart' as timeago;
 void main() async {
   await Get.putAsync(() => LocalAuthenticationService(authentication: LocalAuthentication()).init());
   await Get.putAsync(() => PreferencesService().init());
+  await Get.putAsync(() => DoctorsService().init());
   await GetStorage.init();
 
   WidgetsFlutterBinding.ensureInitialized();

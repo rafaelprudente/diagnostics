@@ -4,16 +4,16 @@ import 'package:diagnostics/widgets/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class MyPreferencesPage extends StatefulWidget {
-  const MyPreferencesPage({Key? key, required this.title}) : super(key: key);
+class PreferencesListPage extends StatefulWidget {
+  const PreferencesListPage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  State<MyPreferencesPage> createState() => _MyPreferencesPageState();
+  State<PreferencesListPage> createState() => _PreferencesListPageState();
 }
 
-class _MyPreferencesPageState extends State<MyPreferencesPage> {
+class _PreferencesListPageState extends State<PreferencesListPage> {
   final PreferencesService preferencesService = Get.find();
 
   @override

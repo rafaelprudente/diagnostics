@@ -1,16 +1,16 @@
 import 'package:diagnostics/widgets/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class DoctorAddPage extends StatefulWidget {
+  const DoctorAddPage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<DoctorAddPage> createState() => _DoctorAddPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _DoctorAddPageState extends State<DoctorAddPage> {
   int _counter = 0;
 
   void _incrementCounter() {
