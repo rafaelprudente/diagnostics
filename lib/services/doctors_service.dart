@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 class DoctorsService extends GetxService {
   DoctorsProvider doctorsProvider = DoctorsProvider();
 
-  Future<List<Doctor>> getSuggestions(String query) async {
-    return doctorsProvider.getDoctors(query);
+  Future<Future<Response<List<String>>>> getSuggestions(String query) async {
+    return doctorsProvider.getNameSuggestions(query);
   }
 
   Future<DoctorsService> init() async {
