@@ -1,7 +1,6 @@
-import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-class PreferencesService extends GetxService {
+class PreferencesDbClient {
   GetStorage preferencesBox = GetStorage('PreferencesBox');
 
   bool getBoolean(String key) {
@@ -10,9 +9,5 @@ class PreferencesService extends GetxService {
 
   putBoolean(String key, bool value) {
     preferencesBox.write(key, value);
-  }
-
-  Future<PreferencesService> init() async {
-    return this;
   }
 }

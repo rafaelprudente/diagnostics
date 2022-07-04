@@ -1,6 +1,6 @@
 import 'package:diagnostics/constants/preferences_constants.dart' as preferences_constants;
-import 'package:diagnostics/services/preferences_service.dart';
-import 'package:diagnostics/widgets/navigation_drawer.dart';
+import 'package:diagnostics/data_sources/local/preferences_db_client.dart';
+import 'package:diagnostics/ui/widgets/my_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,25 +14,29 @@ class PreferencesListPage extends StatefulWidget {
 }
 
 class _PreferencesListPageState extends State<PreferencesListPage> {
-  final PreferencesService preferencesService = Get.find();
+  final PreferencesDbClient preferencesDbClient = Get.find();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        drawer: const NavigationDrawer(),
-        appBar: AppBar(title: Text(widget.title)),
-        body: ListView(
-          children: <Widget>[
-            SwitchListTile(
-              title: const Text(preferences_constants.keyEnableSecurity),
-              value: preferencesService.getBoolean(preferences_constants.keyEnableSecurity),
-              onChanged: (value) {
-                setState(() {
-                  preferencesService.putBoolean(preferences_constants.keyEnableSecurity, value);
-                });
-              },
-            ),
-          ],
-        ));
+    return MyScaffold(
+      title: widget.title,
+      body: buildBody(),
+    );
+  }
+
+  Widget buildBody() {
+    return ListView(
+      children: <Widget>[
+        SwitchListTile(
+          title: const Text(preferences_constants.keyEnableSecurity),
+          value: preferencesDbClient.getBoolean(preferences_constants.keyEnableSecurity),
+          onChanged: (value) {
+            setState(() {
+              preferencesDbClient.putBoolean(preferences_constants.keyEnableSecurity, value);
+            });
+          },
+        ),
+      ],
+    );
   }
 }

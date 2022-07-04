@@ -1,7 +1,7 @@
 import 'package:diagnostics/constants/preferences_constants.dart' as preferences_constants;
 import 'package:diagnostics/routes/routes.dart' as routes;
 import 'package:diagnostics/services/local_authentication_service.dart';
-import 'package:diagnostics/services/preferences_service.dart';
+import 'package:diagnostics/data_sources/local/preferences_db_client.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,7 +15,7 @@ class AuthenticationCheck extends StatefulWidget {
 }
 
 class _AuthenticationCheckState extends State<AuthenticationCheck> {
-  final PreferencesService preferencesService = Get.find();
+  final PreferencesDbClient preferencesService = Get.find();
   final ValueNotifier<bool> isLocalAuthFailed = ValueNotifier(false);
 
   @override

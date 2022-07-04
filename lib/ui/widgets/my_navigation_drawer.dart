@@ -4,8 +4,8 @@ import 'package:diagnostics/routes/routes.dart' as routes;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class NavigationDrawer extends StatelessWidget {
-  const NavigationDrawer({Key? key}) : super(key: key);
+class MyNavigationDrawer extends StatelessWidget {
+  const MyNavigationDrawer({Key? key}) : super(key: key);
   final padding = const EdgeInsets.symmetric(horizontal: 20);
 
   @override

@@ -1,22 +1,22 @@
 import 'dart:io';
 
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:diagnostics/constants/appearance_constants.dart' as appearance_constants;
 import 'package:diagnostics/constants/label_constants.dart' as label_constants;
 import 'package:diagnostics/constants/provider_constants.dart' as provider_constants;
 import 'package:diagnostics/controllers/doctors_controller.dart';
-import 'package:diagnostics/data_sources/remote/rest_client.dart';
+import 'package:diagnostics/data_sources/local/preferences_db_client.dart';
+import 'package:diagnostics/data_sources/remote/doctors_rest_client.dart';
+import 'package:diagnostics/repositories/doctors_repository.dart';
 import 'package:diagnostics/routes/routes.dart';
 import 'package:diagnostics/routes/routes.dart' as routes;
-import 'package:diagnostics/services/doctors_service.dart';
 import 'package:diagnostics/services/local_authentication_service.dart';
-import 'package:diagnostics/services/preferences_service.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 void main() async {
   final dio = Dio();
@@ -26,19 +26,16 @@ void main() async {
     return client;
   };
 
-  await Get.putAsync(() => LocalAuthenticationService(authentication: LocalAuthentication()).init());
-  await Get.putAsync(() => PreferencesService().init());
-  await Get.putAsync(() => DoctorsService().init());
+  Get.lazyPut(() => PreferencesDbClient());
 
-  Get.lazyPut(() => DoctorsController());
   Get.lazyPut(() => DoctorsRestClient(dio));
+  Get.lazyPut(() => DoctorsController());
+  //Get.lazyPut(() => DoctorsRepository());
 
+  await Get.putAsync(() => LocalAuthenticationService(authentication: LocalAuthentication()).init());
   await GetStorage.init();
 
   WidgetsFlutterBinding.ensureInitialized();
-
-  timeago.setLocaleMessages('pt_br', timeago.PtBrMessages());
-  timeago.setDefaultLocale('pt_br');
 
   runApp(const MyApp());
 }

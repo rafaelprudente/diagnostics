@@ -1,7 +1,7 @@
 import 'package:diagnostics/constants/label_constants.dart' as label_constants;
 import 'package:diagnostics/pages/medical_exam_add_page.dart';
 import 'package:diagnostics/pages/medical_exam_list_page.dart';
-import 'package:diagnostics/widgets/authentication_check.dart';
+import 'package:diagnostics/ui/widgets/authentication_check.dart';
 import 'package:flutter/material.dart';
 
 import '../pages/preferences_list_page.dart';
