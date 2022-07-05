@@ -5,47 +5,94 @@ import 'package:diagnostics/ui/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class MyDateInputField extends StatelessWidget {
+class MyDateInputField extends StatefulWidget {
   final String title;
-  final TextEditingController? controller;
+  final String hint;
+  final TextEditingController controller;
 
-  const MyDateInputField({Key? key, required this.title, this.controller}) : super(key: key);
+  const MyDateInputField({Key? key, required this.title, required this.hint, required this.controller})
+      : super(key: key);
+
+  @override
+  State<MyDateInputField> createState() => _MyDateInputFieldState();
+}
+
+class _MyDateInputFieldState extends State<MyDateInputField> {
+  late FocusNode focusNode;
+  late FocusAttachment nodeAttachment;
+  bool focused = false;
+  Color borderColor = Colors.grey;
+  double borderWidth = 1.0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    focusNode = FocusNode(debugLabel: 'TextField');
+    focusNode.addListener(handleFocusChange);
+    nodeAttachment = focusNode.attach(context);
+  }
+
+  void handleFocusChange() {
+    if (focusNode.hasFocus != focused) {
+      setState(() {
+        focused = focusNode.hasFocus;
+        borderColor = Colors.grey;
+        borderWidth = 1.0;
+
+        if (focused) {
+          borderColor = appearance_constants.primarySwatch;
+          borderWidth = 3.0;
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    focusNode.removeListener(handleFocusChange);
+    focusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    nodeAttachment.reparent();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          title,
+          widget.title,
           style: inputTextTitleTextStyle,
         ),
         Container(
-          height: 52,
-          padding: const EdgeInsets.only(left: 14),
-          margin: const EdgeInsets.only(top: 8.0),
+          height: 42,
+          padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(12)),
+              border: Border.all(color: borderColor, width: borderWidth), borderRadius: BorderRadius.circular(12)),
           child: Row(
             children: [
               Expanded(
                 child: TextFormField(
-                  readOnly: true,
                   autofocus: false,
-                  controller: controller,
+                  focusNode: focusNode,
+                  controller: widget.controller,
                   style: inputTextSubTitleTextStyle,
-                  decoration: InputDecoration(
-                      hintText: DateFormat.yMd(Platform.localeName).format(DateTime.now()),
-                      hintStyle: inputTextSubTitleTextStyle,
-                      enabledBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: appearance_constants.primarySwatch, width: 0))),
+                  decoration: InputDecoration.collapsed(
+                    border: InputBorder.none,
+                    hintText: widget.hint,
+                    hintStyle: inputTextSubTitleTextStyle,
+                  ),
                 ),
               ),
               IconButton(
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(),
                 icon: const Icon(Icons.calendar_today_outlined, color: Colors.grey),
                 onPressed: () async {
                   DateTime? selectedDate = await getDateTimeFromUser(context);
-                  controller!.text = DateFormat.yMd(Platform.localeName).format(selectedDate ?? DateTime.now());
+                  widget.controller.text = DateFormat.yMd(Platform.localeName).format(selectedDate ?? DateTime.now());
                 },
               )
             ],

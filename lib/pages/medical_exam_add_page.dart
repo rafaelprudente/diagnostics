@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:diagnostics/constants/label_constants.dart' as label_constants;
 import 'package:diagnostics/controllers/doctors_controller.dart';
 import 'package:diagnostics/ui/styles.dart';
@@ -9,6 +11,7 @@ import 'package:diagnostics/ui/widgets/my_navigation_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 
 class MedicalExamAddPage extends StatefulWidget {
   const MedicalExamAddPage({Key? key, required this.title}) : super(key: key);
@@ -48,12 +51,13 @@ class _MedicalExamAddPageState extends State<MedicalExamAddPage> {
             children: [
               Text('New Medical Exam', style: headingTextStyle),
               MyAllDoctorsSelectField(
-                  title: label_constants.labelFieldDoctors, hint: "Doctor", controller: doctorTextEditingController),
+                  title: label_constants.labelFieldDoctors, hint: '', controller: doctorTextEditingController),
               MyDateInputField(
                 title: "Date",
+                hint: DateFormat.yMd(Platform.localeName).format(DateTime.now()),
                 controller: dateTextEditingController,
               ),
-              MyFileInputField(title: "Exam files", controller: filesTextEditingController),
+              MyFileInputField(title: "Exam files", hint: '', controller: filesTextEditingController),
               MyButton(label: 'Gravar', onTap: () => null),
             ],
           ),

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 
-class MyAllDoctorsSelectField extends StatelessWidget {
+class MyAllDoctorsSelectField extends StatefulWidget {
   final String title;
   final String hint;
   final TextEditingController controller;
@@ -14,30 +14,74 @@ class MyAllDoctorsSelectField extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<MyAllDoctorsSelectField> createState() => _MyAllDoctorsSelectFieldState();
+}
+
+class _MyAllDoctorsSelectFieldState extends State<MyAllDoctorsSelectField> {
+  late FocusNode focusNode;
+  late FocusAttachment nodeAttachment;
+  bool focused = false;
+  Color borderColor = Colors.grey;
+  double borderWidth = 1.0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    focusNode = FocusNode(debugLabel: 'TextField');
+    focusNode.addListener(handleFocusChange);
+    nodeAttachment = focusNode.attach(context);
+  }
+
+  void handleFocusChange() {
+    if (focusNode.hasFocus != focused) {
+      setState(() {
+        focused = focusNode.hasFocus;
+        borderColor = Colors.grey;
+        borderWidth = 1.0;
+
+        if (focused) {
+          borderColor = appearance_constants.primarySwatch;
+          borderWidth = 3.0;
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    focusNode.removeListener(handleFocusChange);
+    focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final DoctorsController doctorsServiceController = Get.find();
+    nodeAttachment.reparent();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          title,
+          widget.title,
           style: inputTextTitleTextStyle,
         ),
         Container(
-          height: 52,
-          padding: const EdgeInsets.only(left: 14),
-          margin: const EdgeInsets.only(top: 8.0),
+          height: 42,
+          padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(12)),
+              border: Border.all(color: borderColor, width: borderWidth), borderRadius: BorderRadius.circular(12)),
           child: TypeAheadField<String>(
               textFieldConfiguration: TextFieldConfiguration(
+                focusNode: focusNode,
                 autofocus: true,
                 style: inputTextSubTitleTextStyle,
-                decoration: const InputDecoration(
-                    enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: appearance_constants.primarySwatch, width: 0))),
-                controller: controller,
+                decoration: const InputDecoration.collapsed(
+                  border: InputBorder.none,
+                  hintText: '',
+                ),
+                controller: widget.controller,
               ),
               suggestionsCallback: (pattern) async {
                 doctorsServiceController.getNameSuggestions(pattern);
@@ -52,7 +96,7 @@ class MyAllDoctorsSelectField extends StatelessWidget {
                 );
               },
               onSuggestionSelected: (suggestion) {
-                controller.text = suggestion;
+                widget.controller.text = suggestion;
               }),
         ),
       ],
