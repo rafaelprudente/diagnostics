@@ -12,19 +12,21 @@ class Doctor {
   final String? uf;
   final String? specialties;
 
-  Doctor({this.id,
-    required this.crm,
-    required this.name,
-    required this.status,
-    required this.subscription,
-    this.inactivation,
-    this.city,
-    this.uf,
-    this.specialties});
+  Doctor(
+      {this.id,
+      required this.crm,
+      required this.name,
+      required this.status,
+      required this.subscription,
+      this.inactivation,
+      this.city,
+      this.uf,
+      this.specialties});
 
   static String tableName = "Doctors";
 
   factory Doctor.fromJson(Map<String, dynamic> json) {
+    int a = 1;
     return Doctor(
       id: json['id'] as int?,
       crm: json['crm'] as int,

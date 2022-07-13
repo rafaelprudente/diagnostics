@@ -10,13 +10,19 @@ class MyScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: const MyNavigationDrawer(),
-      appBar: AppBar(
-        title: Text(title),
+    return SafeArea(
+      top: true,
+      bottom: true,
+      right: true,
+      left: true,
+      child: Scaffold(
+        drawer: const MyNavigationDrawer(),
+        appBar: AppBar(
+          title: Text(title),
+        ),
+        body: Padding(padding: const EdgeInsets.all(8.0), child: body),
+        floatingActionButton: floatingActionButton,
       ),
-      body: Padding(padding: const EdgeInsets.all(8.0), child: body),
-      floatingActionButton: floatingActionButton,
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:diagnostics/constants/appearance_constants.dart' as appearance_constants;
+import 'package:diagnostics/constants/application_constants.dart' as application_constants;
 import 'package:diagnostics/ui/styles.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +35,7 @@ class MyTextInputField extends StatelessWidget {
                   hintText: hint,
                   hintStyle: inputTextSubTitleTextStyle,
                   enabledBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: appearance_constants.primarySwatch, width: 0))),
+                      borderSide: BorderSide(color: application_constants.primaryColor, width: 0))),
             ),
           ),
         ),

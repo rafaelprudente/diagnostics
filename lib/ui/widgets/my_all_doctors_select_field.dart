@@ -1,5 +1,6 @@
-import 'package:diagnostics/constants/appearance_constants.dart' as appearance_constants;
-import 'package:diagnostics/controllers/doctors_controller.dart';
+import 'package:diagnostics/constants/application_constants.dart' as application_constants;
+import 'package:diagnostics/controllers/doctors_rest_controller.dart';
+import 'package:diagnostics/interfaces/i_my_all_doctors_select_field.dart';
 import 'package:diagnostics/ui/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -8,7 +9,7 @@ import 'package:get/get.dart';
 class MyAllDoctorsSelectField extends StatefulWidget {
   final String title;
   final String hint;
-  final TextEditingController controller;
+  final IMyAllDoctorsSelectField controller;
 
   const MyAllDoctorsSelectField({Key? key, required this.title, required this.hint, required this.controller})
       : super(key: key);
@@ -23,6 +24,7 @@ class _MyAllDoctorsSelectFieldState extends State<MyAllDoctorsSelectField> {
   bool focused = false;
   Color borderColor = Colors.grey;
   double borderWidth = 1.0;
+  TextEditingController internalController = TextEditingController();
 
   @override
   void initState() {
@@ -41,7 +43,7 @@ class _MyAllDoctorsSelectFieldState extends State<MyAllDoctorsSelectField> {
         borderWidth = 1.0;
 
         if (focused) {
-          borderColor = appearance_constants.primarySwatch;
+          borderColor = application_constants.primaryColor;
           borderWidth = 3.0;
         }
       });
@@ -57,7 +59,7 @@ class _MyAllDoctorsSelectFieldState extends State<MyAllDoctorsSelectField> {
 
   @override
   Widget build(BuildContext context) {
-    final DoctorsController doctorsServiceController = Get.find();
+    final DoctorsRestController doctorsServiceController = Get.find();
     nodeAttachment.reparent();
 
     return Column(
@@ -68,11 +70,12 @@ class _MyAllDoctorsSelectFieldState extends State<MyAllDoctorsSelectField> {
           style: inputTextTitleTextStyle,
         ),
         Container(
-          height: 42,
+          height: 46,
+          margin: const EdgeInsets.only(bottom: 12),
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
               border: Border.all(color: borderColor, width: borderWidth), borderRadius: BorderRadius.circular(12)),
-          child: TypeAheadField<String>(
+          child: TypeAheadFormField<String>(
               textFieldConfiguration: TextFieldConfiguration(
                 focusNode: focusNode,
                 autofocus: true,
@@ -81,7 +84,7 @@ class _MyAllDoctorsSelectFieldState extends State<MyAllDoctorsSelectField> {
                   border: InputBorder.none,
                   hintText: '',
                 ),
-                controller: widget.controller,
+                controller: internalController,
               ),
               suggestionsCallback: (pattern) async {
                 doctorsServiceController.getNameSuggestions(pattern);
@@ -96,7 +99,8 @@ class _MyAllDoctorsSelectFieldState extends State<MyAllDoctorsSelectField> {
                 );
               },
               onSuggestionSelected: (suggestion) {
-                widget.controller.text = suggestion;
+                internalController.text = suggestion;
+                widget.controller.doctor = suggestion;
               }),
         ),
       ],

@@ -1,4 +1,4 @@
-import 'package:diagnostics/constants/appearance_constants.dart' as appearance_constants;
+import 'package:diagnostics/constants/application_constants.dart' as application_constants;
 import 'package:diagnostics/constants/label_constants.dart' as label_constants;
 import 'package:diagnostics/routes/routes.dart' as routes;
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class MyNavigationDrawer extends StatelessWidget {
           const SizedBox(
             height: 100.0,
             child: DrawerHeader(
-              decoration: BoxDecoration(color: appearance_constants.primarySwatch),
+              decoration: BoxDecoration(color: application_constants.primaryColor),
               child: Center(child: Text(label_constants.labelMenu, style: TextStyle(color: Colors.white))),
             ),
           ),

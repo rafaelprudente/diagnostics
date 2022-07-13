@@ -1,5 +1,3 @@
-const String applicationName = 'Diagnostics';
-
 const String labelFieldDoctors = 'Doctor';
 
 const String labelMenu = 'Menu';

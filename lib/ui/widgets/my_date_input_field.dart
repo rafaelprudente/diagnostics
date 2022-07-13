@@ -1,17 +1,16 @@
 import 'dart:io';
 
-import 'package:diagnostics/constants/appearance_constants.dart' as appearance_constants;
+import 'package:diagnostics/constants/application_constants.dart' as application_constants;
+import 'package:diagnostics/interfaces/i_my_date_input_field.dart';
 import 'package:diagnostics/ui/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class MyDateInputField extends StatefulWidget {
   final String title;
-  final String hint;
-  final TextEditingController controller;
+  final IMyDateInputField controller;
 
-  const MyDateInputField({Key? key, required this.title, required this.hint, required this.controller})
-      : super(key: key);
+  const MyDateInputField({Key? key, required this.title, required this.controller}) : super(key: key);
 
   @override
   State<MyDateInputField> createState() => _MyDateInputFieldState();
@@ -23,6 +22,7 @@ class _MyDateInputFieldState extends State<MyDateInputField> {
   bool focused = false;
   Color borderColor = Colors.grey;
   double borderWidth = 1.0;
+  TextEditingController internalController = TextEditingController();
 
   @override
   void initState() {
@@ -41,7 +41,7 @@ class _MyDateInputFieldState extends State<MyDateInputField> {
         borderWidth = 1.0;
 
         if (focused) {
-          borderColor = appearance_constants.primarySwatch;
+          borderColor = application_constants.primaryColor;
           borderWidth = 3.0;
         }
       });
@@ -67,7 +67,8 @@ class _MyDateInputFieldState extends State<MyDateInputField> {
           style: inputTextTitleTextStyle,
         ),
         Container(
-          height: 42,
+          height: 46,
+          margin: const EdgeInsets.only(bottom: 12),
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
               border: Border.all(color: borderColor, width: borderWidth), borderRadius: BorderRadius.circular(12)),
@@ -77,11 +78,11 @@ class _MyDateInputFieldState extends State<MyDateInputField> {
                 child: TextFormField(
                   autofocus: false,
                   focusNode: focusNode,
-                  controller: widget.controller,
+                  controller: internalController,
                   style: inputTextSubTitleTextStyle,
                   decoration: InputDecoration.collapsed(
                     border: InputBorder.none,
-                    hintText: widget.hint,
+                    hintText: DateFormat.yMd(Platform.localeName).format(widget.controller.date ?? DateTime.now()),
                     hintStyle: inputTextSubTitleTextStyle,
                   ),
                 ),
@@ -91,8 +92,9 @@ class _MyDateInputFieldState extends State<MyDateInputField> {
                 constraints: const BoxConstraints(),
                 icon: const Icon(Icons.calendar_today_outlined, color: Colors.grey),
                 onPressed: () async {
-                  DateTime? selectedDate = await getDateTimeFromUser(context);
-                  widget.controller.text = DateFormat.yMd(Platform.localeName).format(selectedDate ?? DateTime.now());
+                  widget.controller.date = (await getDateTimeFromUser(context))!;
+                  internalController.text =
+                      DateFormat.yMd(Platform.localeName).format(widget.controller.date ?? DateTime.now());
                 },
               )
             ],
